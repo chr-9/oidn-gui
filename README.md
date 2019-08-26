@@ -1,7 +1,7 @@
 # oidn-gui
  GUI Frontend for [Intel® Open Image Denoise library](https://openimagedenoise.github.io/)
 
-[Download latest release](https://github.com/chr-9/Win-FFmpeg_ProRes422/releases/latest)
+[Download latest release](https://github.com/chr-9/oidn-gui/releases/latest)
 
 
 ## UI
