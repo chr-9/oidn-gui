@@ -35,6 +35,7 @@ namespace OIDN
             this.flatProgressBar1 = new FlatUI.FlatProgressBar();
             this.FormSkin = new FlatUI.FormSkin();
             this.button_abort = new FlatUI.FlatButton();
+            this.picturebox_preview = new System.Windows.Forms.PictureBox();
             this.flatTabControl1 = new FlatUI.FlatTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.flatLabel11 = new FlatUI.FlatLabel();
@@ -71,13 +72,12 @@ namespace OIDN
             this.flatLabel3 = new FlatUI.FlatLabel();
             this.flatLabel2 = new FlatUI.FlatLabel();
             this.flatLabel1 = new FlatUI.FlatLabel();
-            this.picturebox_preview = new System.Windows.Forms.PictureBox();
             this.FormSkin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picturebox_preview)).BeginInit();
             this.flatTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picturebox_preview)).BeginInit();
             this.SuspendLayout();
             // 
             // FlatClose
@@ -159,7 +159,7 @@ namespace OIDN
             this.FormSkin.Name = "FormSkin";
             this.FormSkin.Size = new System.Drawing.Size(782, 528);
             this.FormSkin.TabIndex = 0;
-            this.FormSkin.Text = "OIDN 0.1.0";
+            this.FormSkin.Text = "OIDN 0.1.1";
             // 
             // button_abort
             // 
@@ -177,6 +177,20 @@ namespace OIDN
             this.button_abort.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.button_abort.Visible = false;
             this.button_abort.Click += new System.EventHandler(this.button_abort_Click);
+            // 
+            // picturebox_preview
+            // 
+            this.picturebox_preview.BackColor = System.Drawing.Color.Black;
+            this.picturebox_preview.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.picturebox_preview.ErrorImage = global::OIDN.Properties.Resources.logo_tiny;
+            this.picturebox_preview.InitialImage = global::OIDN.Properties.Resources.load2;
+            this.picturebox_preview.Location = new System.Drawing.Point(452, 222);
+            this.picturebox_preview.Name = "picturebox_preview";
+            this.picturebox_preview.Size = new System.Drawing.Size(318, 179);
+            this.picturebox_preview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picturebox_preview.TabIndex = 42;
+            this.picturebox_preview.TabStop = false;
+            this.picturebox_preview.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // flatTabControl1
             // 
@@ -705,20 +719,6 @@ namespace OIDN
             this.flatLabel1.TabIndex = 8;
             this.flatLabel1.Text = "Beauty";
             // 
-            // picturebox_preview
-            // 
-            this.picturebox_preview.BackColor = System.Drawing.Color.Black;
-            this.picturebox_preview.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.picturebox_preview.ErrorImage = global::OIDN.Properties.Resources.logo_tiny;
-            this.picturebox_preview.InitialImage = global::OIDN.Properties.Resources.load2;
-            this.picturebox_preview.Location = new System.Drawing.Point(452, 222);
-            this.picturebox_preview.Name = "picturebox_preview";
-            this.picturebox_preview.Size = new System.Drawing.Size(318, 179);
-            this.picturebox_preview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picturebox_preview.TabIndex = 42;
-            this.picturebox_preview.TabStop = false;
-            this.picturebox_preview.Click += new System.EventHandler(this.pictureBox2_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -733,6 +733,7 @@ namespace OIDN
             this.Load += new System.EventHandler(this.Form1_Load);
             this.FormSkin.ResumeLayout(false);
             this.FormSkin.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picturebox_preview)).EndInit();
             this.flatTabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -740,7 +741,6 @@ namespace OIDN
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picturebox_preview)).EndInit();
             this.ResumeLayout(false);
 
 		}

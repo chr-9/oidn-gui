@@ -6,17 +6,16 @@ using System.Drawing;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using FlatUI;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Timers;
-using FlatUI;
 
 namespace OIDN
 {
-	public partial class Form1 : Form
-	{
-
+    public partial class Form1 : Form
+    {
         string path_beauty = "";
         string path_albedo = "";
         string path_normal = "";
@@ -39,10 +38,9 @@ namespace OIDN
         IniFile ini = new IniFile("./oidn.ini");
 
         public Form1()
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
         }
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -51,7 +49,7 @@ namespace OIDN
             int indexparse = 0; int.TryParse(ini["Seq", "CB_Index"], out indexparse);
             comboBox_Presets.SelectedIndex = indexparse;
 
-            if(textbox_PatternBeauty.Text != "")
+            if (textbox_PatternBeauty.Text != "")
             {
                 textbox_PatternBeauty.Text = ini["Seq", "PatternBeauty"];
             }
@@ -67,6 +65,11 @@ namespace OIDN
 
         private void button_run_Click(object sender, EventArgs e)
         {
+            path_beauty = textbox_BeautyPath.Text;
+            path_albedo = textbox_AlbedoPath.Text;
+            path_normal = textbox_NormalPath.Text;
+            path_output = textbox_outputPath.Text;
+
             if (path_beauty == "")
             {
                 alertError("Beauty path is invalid");
@@ -77,7 +80,7 @@ namespace OIDN
                 alertError("Albedo AOV path invalid");
                 return;
             }
-            if (path_normal == "" || path_normal == digit_str+extension)
+            if (path_normal == "" || path_normal == digit_str + extension)
             {
                 alertError("Normal AOV path invalid");
                 return;
@@ -93,9 +96,6 @@ namespace OIDN
 
             if (!isAnimation)
             {
-                // NOT SEQUENCE
-
-
                 string args = "";
                 args += "-i " + "\"" + path_beauty + "\" ";
                 args += "-a " + "\"" + path_albedo + "\" ";
@@ -130,11 +130,9 @@ namespace OIDN
                 Process p = new Process();
                 p.StartInfo.FileName = Application.StartupPath + "/lib/core.exe";
                 p.StartInfo.Arguments = args;
-
                 p.SynchronizingObject = this;
                 p.Exited += new EventHandler(p_Exited);
                 p.EnableRaisingEvents = true;
-
                 p.StartInfo.CreateNoWindow = true;
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.RedirectStandardOutput = true;
@@ -166,7 +164,7 @@ namespace OIDN
             }
             else
             {
-                //SEQUENCE
+                //seq
                 string args_pre = "";
                 if (checkBox_is32bpc.Checked == true)
                 {
@@ -206,7 +204,7 @@ namespace OIDN
                     }
 
                     string args = "";
-                    string framenum = (i + minFrame).ToString("D"+digit);
+                    string framenum = (i + minFrame).ToString("D" + digit);
 
                     string seq_path_beauty = path_beauty.Replace(digit_str, framenum);
                     string seq_path_albedo = path_albedo.Replace(digit_str, framenum);
@@ -246,7 +244,7 @@ namespace OIDN
                         Application.DoEvents();
                         Thread.Sleep(32);
                     }
-                    alertSuccess("Processed " + framenum + "F (" + Math.Round(((double)i / totalFrame*1.000)*100.00) +"%)");
+                    alertSuccess("Processed " + framenum + "F (" + Math.Round(((double)i / totalFrame * 1.000) * 100.00) + "%)");
                     Thread.Sleep(64);
 
                     try
@@ -300,8 +298,6 @@ namespace OIDN
                     }
                     flatProgressBar1.Value = prog;
                 }
-
-                //textbox_Log.Text += str + "\r\n";
             }
         }
 
@@ -365,30 +361,21 @@ namespace OIDN
                 numInput_StartFrame.Enabled = false;
                 numInput_EndFrame.Enabled = false;
 
-                //Automatch
-                //if (path_albedo == "")
-                //{
                 string tempAlbedoPath = path_beauty.Replace("_beauty", "").Replace(extension, "") + "_albedo" + extension;
-                        if (File.Exists(tempAlbedoPath))
-                        {
-                            path_albedo = tempAlbedoPath;
-                            textbox_AlbedoPath.Text = tempAlbedoPath;
-                        }
-                    //}
-                    //if (path_normal == "")
-                    //{
-                        string tempNormalPath = path_beauty.Replace("_beauty", "").Replace(extension, "") + "_N" + extension;
-                        if (File.Exists(tempNormalPath))
-                        {
-                            path_normal = tempNormalPath;
-                            textbox_NormalPath.Text = tempNormalPath;
-                        }
-                    //}
-                    //if (path_output == "")
-                    //{
-                        path_output = path_beauty.Replace("_beauty", "").Replace(extension, "") + "_denoised" + extension;
-                        textbox_outputPath.Text = path_output;
-                    //}
+                if (File.Exists(tempAlbedoPath))
+                {
+                    path_albedo = tempAlbedoPath;
+                    textbox_AlbedoPath.Text = tempAlbedoPath;
+                }
+
+                string tempNormalPath = path_beauty.Replace("_beauty", "").Replace(extension, "") + "_N" + extension;
+                if (File.Exists(tempNormalPath))
+                {
+                    path_normal = tempNormalPath;
+                    textbox_NormalPath.Text = tempNormalPath;
+                }
+                path_output = path_beauty.Replace("_beauty", "").Replace(extension, "") + "_denoised" + extension;
+                textbox_outputPath.Text = path_output;
             }
         }
 
@@ -398,8 +385,7 @@ namespace OIDN
 
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.FileName = "";
-            ofd.Title = "Open Albedo";
-            //ofd.RestoreDirectory = true;
+            ofd.Title = "Open Albedo AOV";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 path_albedo = ofd.FileName;
@@ -413,8 +399,7 @@ namespace OIDN
 
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.FileName = "";
-            ofd.Title = "Open Normal";
-            //ofd.RestoreDirectory = true;
+            ofd.Title = "Open Normal AOV";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 path_normal = ofd.FileName;
@@ -429,7 +414,7 @@ namespace OIDN
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Title = "Output";
             sfd.FileName = Path.GetFileNameWithoutExtension(path_output);
-            sfd.Filter = ""+extension.Replace(".", "")+"(*"+extension+")|*"+extension+"|All types(*.*)|*.*";
+            sfd.Filter = "" + extension.Replace(".", "") + "(*" + extension + ")|*" + extension + "|All types(*.*)|*.*";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 path_output = sfd.FileName;
@@ -468,13 +453,13 @@ namespace OIDN
                     foreach (System.IO.FileInfo f in files)
                     {
                         string filename = f.FullName;
-                        bool ArnoldReplaced = false;
-                        //for Arnold
-                        if(filename.Contains("_RGBA Image"))
+                        bool ArnoldFix = false;
+
+                        //Arnold fix
+                        if (filename.Contains("_RGBA Image"))
                         {
-                            //MessageBox.Show("Replaced "+filename);
                             filename = filename.Replace("_RGBA Image", "_RGBA Image_");
-                            ArnoldReplaced = true;
+                            ArnoldFix = true;
                         }
 
                         MatchCollection mc = Regex.Matches(filename, @"(^|\r?\n|.*_|.*\.)\d{3,}.*\" + extension);
@@ -482,14 +467,12 @@ namespace OIDN
                         {
                             if (m.Value.Contains("_Albedo") || m.Value.Contains("_diffuse filter_") || m.Value.Contains("_DiffuseFilter") || m.Value.Contains("_diffusefilter") || m.Value.Contains(textbox_PatternAlbedo.Text))
                             {
-                                //MessageBox.Show("Albedo_" + m.Value);
                                 string header = m.Groups[1].Value;
                                 path_header_albedo = header;
                                 albedoFound = true;
                             }
                             else if (m.Value.Contains("_Normal_") || m.Value.Contains("_shading normal_") || m.Value.Contains("_N_") || m.Value.Contains("_n_") || m.Value.Contains(textbox_PatternNormal.Text))
                             {
-                                //MessageBox.Show("Normal_" + m.Value);
                                 string header = m.Groups[1].Value;
                                 path_header_normal = header;
                                 normalFound = true;
@@ -502,13 +485,12 @@ namespace OIDN
                                     string header = m.Groups[1].Value;
                                     string frame = m.Groups[0].Value.Replace(m.Groups[1].Value, "").Replace(extension, "");
 
-                                    //for Arnold
-                                    if (header.Contains("_RGBA Image_") && ArnoldReplaced)
+                                    //Arnold fix
+                                    if (header.Contains("_RGBA Image_") && ArnoldFix)
                                     {
                                         header = header.Replace("_RGBA Image_", "_RGBA Image");
                                     }
 
-                                    //MessageBox.Show("Beauty " + m.Value);
                                     path_header_beauty = header;
 
                                     if (minFrame > int.Parse(frame))
@@ -523,32 +505,8 @@ namespace OIDN
 
                                     digit = frame.Length;
                                     beautyFound = true;
-                                    //MessageBox.Show("Beauty: " + m.Value + "\r\n\r\n" + "Header: " + header + "\r\n\r\n" + "Frame: " + frame + "\r\n\r\nExtension: " + extension);
                                 }
                             }
-
-                            /*if (!beautyMatched)
-                            {
-                                string header = m.Groups[1].Value;
-                                string frame = m.Groups[0].Value.Replace(m.Groups[1].Value, "").Replace(extension, "");
-
-                                path_header_beauty = header;
-
-                                if (minFrame > int.Parse(frame))
-                                {
-                                    minFrame = int.Parse(frame);
-                                }
-
-                                if (maxFrame < int.Parse(frame))
-                                {
-                                    maxFrame = int.Parse(frame);
-                                }
-
-                                digit = frame.Length;
-
-                                //MessageBox.Show("Beauty: " + m.Value + "\r\n\r\n" + "Header: " + header + "\r\n\r\n" + "Frame: " + frame + "\r\n\r\nExtension: " + extension);
-                                beautyMatched = true;
-                            }*/
                         }
 
 
@@ -583,7 +541,7 @@ namespace OIDN
                         numInput_StartFrame.Value = minFrame;
                         numInput_EndFrame.Value = maxFrame;
                         totalFrame = (maxFrame - minFrame + 1);
-                        flatLabel10.Text = "Total: " + totalFrame + "  Digit: "+digit;
+                        flatLabel10.Text = "Total: " + totalFrame + "  Digit: " + digit;
 
                         isAnimation = true;
                         numInput_StartFrame.Enabled = true;
@@ -616,7 +574,7 @@ namespace OIDN
                     }
 
                 }
-                catch(Exception exc)
+                catch (Exception exc)
                 {
                     Console.WriteLine(exc.Message);
                 }
@@ -627,15 +585,11 @@ namespace OIDN
         {
             if (checkBox_useallthreads.Checked)
             {
-                //flatLabel11.Visible = false;
-                //textbox_Threads.Visible = false;
                 flatLabel11.Enabled = false;
                 textbox_Threads.Enabled = false;
             }
             else
             {
-                //flatLabel11.Visible = true;
-                //textbox_Threads.Visible = true;
                 flatLabel11.Enabled = true;
                 textbox_Threads.Enabled = true;
             }
@@ -658,7 +612,7 @@ namespace OIDN
 
         private void flatComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(comboBox_Presets.SelectedIndex == 0)
+            if (comboBox_Presets.SelectedIndex == 0)
             {
                 textbox_PatternBeauty.Text = "_beauty_";
                 textbox_PatternAlbedo.Text = "_diffusefilter_";
