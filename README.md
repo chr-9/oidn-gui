@@ -10,6 +10,16 @@
 <!-- ![image01](https://raw.githubusercontent.com/chr-9/oidn-gui/master/doc/01.png) -->
 <!-- ![image01_denoised](https://raw.githubusercontent.com/chr-9/oidn-gui/master/doc/01_denoised.png) -->
 
+## Supported formats
+[OpenImageIO](https://sites.google.com/site/openimageio/home) library is used for image input / output.
+
+library supports the following formats: 
+**OpenEXR, HDR/RGBE, TIFF, PNG, JPEG, TGA, PSD, DPX, Cineon, BMP, JPEG-2000, RMan Zfile, FITS, DDS, Softimage PIC, PNM, IFF, Field3D, Ptex, Wavefront RLA, SGI, WebP, GIF**
+
+
+PNG, TIFF, and JPEG can be displayed in preview.
+
+
 ## UI
 ![ui](https://raw.githubusercontent.com/chr-9/oidn-gui/master/doc/ui.png)
 
