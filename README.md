@@ -1,5 +1,5 @@
-This repository is no longer maintained.
-The project is moved to https://github.com/chr-9/OIDN-GUI-Qt; rewritten in C++ and Qt. 
+This repository is no longer maintained.  
+The project is moved to https://github.com/chr-9/OIDN-GUI-Qt; rewritten in C++ and Qt.  
 
 # oidn-gui
  GUI Frontend for [Intel® Open Image Denoise library](https://openimagedenoise.github.io/).
